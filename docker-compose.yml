@@ -1,0 +1,37 @@
+services:
+  # ① Webアプリケーション側（Ruby 4.0.5 + Dockerfileビルド）
+  web:
+    build: .
+    volumes:
+      - .:/app
+      - bundle_data:/usr/local/bundle  # ← 【重要！】Gemの保管庫をここに追記
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=db
+      - DB_USER=${MYSQL_USER}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - DB_NAME=${MYSQL_DATABASE}
+    depends_on:
+      - db
+    tty: true
+    stdin_open: true
+
+  # ② データベース側（MySQL 8.0）
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+  bundle_data:  # ← 【重要！】ここにも保管庫の名前を追記
