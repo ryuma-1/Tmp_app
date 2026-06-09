@@ -104,10 +104,9 @@ graph TD
 現時点で想定している技術要素です．
 
 
-* **フロントエンド:** React / Next.js
+* **フロントエンド:** React
 
-* **バックエンド:** Node.js (TypeScript)
+* **バックエンド:** Ruby on Rails
 
-* **データベース:** PostgreSQL
+* **データベース:** MySQL
 
-* **インフラ:** AWS (ECS, RDS, S3)
